@@ -7,14 +7,14 @@
   document.head.append(observationScript);
   const data = window.CHAPTER;
   const fixed = {
-    '01': { label: '第1章', file: 'index.html', footer: '第1章「運ばれていった」 / 第1—7章＋終章プロトタイプ v0.10.3' },
-    '02': { label: '第2章', file: 'chapter-02.html', footer: '第2章「土地にあるもので」 / 第1—7章＋終章プロトタイプ v0.10.3' },
-    '03': { label: '第3章', file: 'chapter-03.html', footer: '第3章「値段のないスーパー」 / 第1—7章＋終章プロトタイプ v0.10.3' },
-    '04': { label: '第4章', file: 'chapter-04.html', footer: '第4章「まだ気に入っていません」 / 第1—7章＋終章プロトタイプ v0.10.3' },
-    '05': { label: '第5章', file: 'chapter-05.html', footer: '第5章「紐は宝物」 / 第1—7章＋終章プロトタイプ v0.10.3' },
-    '06': { label: '第6章', file: 'chapter-06.html', title: '第6章 獲らない季節｜台湾一周・発酵の旅', eyebrow: 'CHAPTER 06　/　08.15', heading: '獲らない季節', intro: 'TAIPEI / DIHUA STREET', caption: 'この章の場所　台北・迪化街', footer: '第6章「獲らない季節」 / 第1—7章＋終章プロトタイプ v0.10.3' },
-    '07': { label: '第7章', file: 'chapter-07.html', title: '第7章 ぬか床を渡す｜台湾一周・発酵の旅', eyebrow: 'CHAPTER 07　/　08.16', heading: 'ぬか床を渡す', intro: 'TAIPEI / DADAOCHENG', caption: 'この章の場所　台北・大稻埕', footer: '第7章「ぬか床を渡す」 / 第1—7章＋終章プロトタイプ v0.10.3' },
-    '08': { label: '終章', file: 'epilogue.html', title: '終章 つながっていくと、嵐山が深くなる｜台湾一周・発酵の旅', eyebrow: 'EPILOGUE', heading: 'つながっていくと、<br>嵐山が深くなる', footer: '終章「つながっていくと、嵐山が深くなる」 / 第1—7章＋終章プロトタイプ v0.10.3' }
+    '01': { label: '第1章', file: 'index.html', footer: '第1章「運ばれていった」 / 第1—7章＋終章プロトタイプ v0.10.5' },
+    '02': { label: '第2章', file: 'chapter-02.html', footer: '第2章「土地にあるもので」 / 第1—7章＋終章プロトタイプ v0.10.5' },
+    '03': { label: '第3章', file: 'chapter-03.html', footer: '第3章「値段のないスーパー」 / 第1—7章＋終章プロトタイプ v0.10.5' },
+    '04': { label: '第4章', file: 'chapter-04.html', footer: '第4章「まだ気に入っていません」 / 第1—7章＋終章プロトタイプ v0.10.5' },
+    '05': { label: '第5章', file: 'chapter-05.html', footer: '第5章「紐は宝物」 / 第1—7章＋終章プロトタイプ v0.10.5' },
+    '06': { label: '第6章', file: 'chapter-06.html', title: '第6章 獲らない季節｜台湾一周・発酵の旅', eyebrow: 'CHAPTER 06　/　08.15', heading: '獲らない季節', intro: 'TAIPEI / DIHUA STREET', caption: 'この章の場所　台北・迪化街', footer: '第6章「獲らない季節」 / 第1—7章＋終章プロトタイプ v0.10.5' },
+    '07': { label: '第7章', file: 'chapter-07.html', title: '第7章 ぬか床を渡す｜台湾一周・発酵の旅', eyebrow: 'CHAPTER 07　/　08.16', heading: 'ぬか床を渡す', intro: 'TAIPEI / DADAOCHENG', caption: 'この章の場所　台北・大稻埕', footer: '第7章「ぬか床を渡す」 / 第1—7章＋終章プロトタイプ v0.10.5' },
+    '08': { label: '終章', file: 'epilogue.html', title: '終章 つながっていくと、嵐山が深くなる｜台湾一周・発酵の旅', eyebrow: 'EPILOGUE', heading: 'つながっていくと、<br>嵐山が深くなる', footer: '終章「つながっていくと、嵐山が深くなる」 / 第1—7章＋終章プロトタイプ v0.10.5' }
   };
   const page = fixed[data.number];
   if (page) {
