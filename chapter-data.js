@@ -1,6 +1,6 @@
 window.CHAPTER = {
   "number": "01",
-  "title": "運ばれていった",
+  "title": "南へ南へ運ばれていった",
   "date": "2026.08.09—10",
   "map": {
     "bounds": {

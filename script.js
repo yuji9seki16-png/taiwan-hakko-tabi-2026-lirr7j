@@ -7,14 +7,14 @@
   document.head.append(observationScript);
   const data = window.CHAPTER;
   const fixed = {
-    '01': { label: '第1章', file: 'index.html', footer: '第1章「運ばれていった」 / 第1—7章＋終章プロトタイプ v0.10.5' },
-    '02': { label: '第2章', file: 'chapter-02.html', footer: '第2章「土地にあるもので」 / 第1—7章＋終章プロトタイプ v0.10.5' },
-    '03': { label: '第3章', file: 'chapter-03.html', footer: '第3章「値段のないスーパー」 / 第1—7章＋終章プロトタイプ v0.10.5' },
-    '04': { label: '第4章', file: 'chapter-04.html', footer: '第4章「まだ気に入っていません」 / 第1—7章＋終章プロトタイプ v0.10.5' },
-    '05': { label: '第5章', file: 'chapter-05.html', footer: '第5章「紐は宝物」 / 第1—7章＋終章プロトタイプ v0.10.5' },
-    '06': { label: '第6章', file: 'chapter-06.html', title: '第6章 獲らない季節｜台湾一周・発酵の旅', eyebrow: 'CHAPTER 06　/　08.15', heading: '獲らない季節', intro: 'TAIPEI / DIHUA STREET', caption: 'この章の場所　台北・迪化街', footer: '第6章「獲らない季節」 / 第1—7章＋終章プロトタイプ v0.10.5' },
-    '07': { label: '第7章', file: 'chapter-07.html', title: '第7章 ぬか床を渡す｜台湾一周・発酵の旅', eyebrow: 'CHAPTER 07　/　08.16', heading: 'ぬか床を渡す', intro: 'TAIPEI / DADAOCHENG', caption: 'この章の場所　台北・大稻埕', footer: '第7章「ぬか床を渡す」 / 第1—7章＋終章プロトタイプ v0.10.5' },
-    '08': { label: '終章', file: 'epilogue.html', title: '終章 つながっていくと、嵐山が深くなる｜台湾一周・発酵の旅', eyebrow: 'EPILOGUE', heading: 'つながっていくと、<br>嵐山が深くなる', footer: '終章「つながっていくと、嵐山が深くなる」 / 第1—7章＋終章プロトタイプ v0.10.5' }
+    '01': { label: '第1章', file: 'index.html', footer: '第1章「南へ南へ運ばれていった」 / 第1—7章＋終章プロトタイプ v0.11.2' },
+    '02': { label: '第2章', file: 'chapter-02.html', footer: '第2章「土地にあるもので」 / 第1—7章＋終章プロトタイプ v0.11.2' },
+    '03': { label: '第3章', file: 'chapter-03.html', footer: '第3章「値段のないスーパー」 / 第1—7章＋終章プロトタイプ v0.11.2' },
+    '04': { label: '第4章', file: 'chapter-04.html', footer: '第4章「まだ気に入っていません」 / 第1—7章＋終章プロトタイプ v0.11.2' },
+    '05': { label: '第5章', file: 'chapter-05.html', footer: '第5章「紐は宝物」 / 第1—7章＋終章プロトタイプ v0.11.2' },
+    '06': { label: '第6章', file: 'chapter-06.html', title: '第6章 獲らない季節｜台湾一周・発酵の旅', eyebrow: 'CHAPTER 06　/　08.15', heading: '獲らない季節', intro: 'TAIPEI / DIHUA STREET', caption: 'この章の場所　台北・迪化街', footer: '第6章「獲らない季節」 / 第1—7章＋終章プロトタイプ v0.11.2' },
+    '07': { label: '第7章', file: 'chapter-07.html', title: '第7章 ぬか床を渡す｜台湾一周・発酵の旅', eyebrow: 'CHAPTER 07　/　08.16', heading: 'ぬか床を渡す', intro: 'TAIPEI / DADAOCHENG', caption: 'この章の場所　台北・大稻埕', footer: '第7章「ぬか床を渡す」 / 第1—7章＋終章プロトタイプ v0.11.2' },
+    '08': { label: '終章', file: 'epilogue.html', title: '終章 異文化と繋がるほど、嵐山が深くなる｜台湾一周・発酵の旅', eyebrow: 'EPILOGUE', heading: '異文化と繋がるほど、<br>嵐山が深くなる', footer: '終章「異文化と繋がるほど、嵐山が深くなる」 / 第1—7章＋終章プロトタイプ v0.11.2' }
   };
   const page = fixed[data.number];
   if (page) {
@@ -26,6 +26,8 @@
     document.querySelector('footer').textContent = page.footer;
     document.querySelector('.header > a').href = 'journey-index.html';
     document.querySelector('.header span').innerHTML = Object.entries(fixed).map(([number, item]) => number === data.number ? item.label : `<a href="${item.file}">${item.label}</a>`).join('　/　');
+    document.querySelector('.header').insertAdjacentHTML('afterbegin', '<a class="back-map" href="journey-index.html">← 全体地図</a>');
+    document.querySelector('#presentation').insertAdjacentHTML('afterbegin', '<a class="back-map" href="journey-index.html">← 全体地図</a>');
   }
   const galleryExtras = window.GALLERY_EXTRAS || {};
   const contentExtras = window.CONTENT_EXTRAS || {};
@@ -44,6 +46,9 @@
   const nav = $("#moment-nav");
   const points = $("#route-points");
   const routeLine = $("#route-line");
+  const yomi = { "六十石山": "リョウシーダンシャン", "皇珵醬油": "ホァンチェンジャンヨウ", "樹屋廣場": "シューウーグアンチャン", "大稻埕": "ダーダオチェン", "迪化街": "ディーホアジエ", "富里郷": "フーリー", "羅山村": "ルオシャン", "發酵迷": "ファージャオミー", "花蓮": "ホアリェン", "玉里": "ユーリー", "台東": "タイドン", "屏東": "ピンドン", "台南": "タイナン", "新竹": "シンジュー", "北埔": "ベイプー", "内湖": "ネイフー" };
+  const yomiRe = new RegExp(Object.keys(yomi).join("|"), "g");
+  const withYomi = (place) => String(place).replace(yomiRe, (word) => `${word}（${yomi[word]}）`);
   const esc = (text) => String(text).replace(/[&<>"']/g, (character) => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
   }[character]));
@@ -87,7 +92,7 @@
     const moment = data.moments[index];
     const photo = moment.photos[0];
     const research = $("#research-link");
-    $("#meta").textContent = `${moment.date}　／　${moment.place}`;
+    $("#meta").textContent = `${moment.date}　／　${withYomi(moment.place)}`;
     $("#title").textContent = moment.headline;
     $("#lead").textContent = moment.lead;
     $("#text").textContent = moment.text;
@@ -113,11 +118,30 @@
     const photo = moment.photos[0];
     render();
     $("#presentation").hidden = false;
-    $("#presentation-meta").textContent = `${page.label}　${moment.date}　／　${moment.place}`;
+    $("#presentation-meta").textContent = `${page.label}　${moment.date}　／　${withYomi(moment.place)}`;
     $("#presentation-title").textContent = moment.headline;
-    $("#presentation-text").textContent = moment.text;
+    $("#presentation-text").textContent = moment.text.split(/\n+/).map((line) => line.trim()).filter(Boolean)[0] || "";
     $("#presentation-photo").innerHTML = figure(photo);
     document.body.classList.add("presenting");
+  }
+
+  const order = Object.keys(fixed);
+  const pageAt = order.indexOf(data.number);
+
+  function across(direction) {
+    const next = index + direction;
+    if (next >= 0 && next < data.moments.length) {
+      selectMoment(next);
+      present();
+      return;
+    }
+    const target = pageAt + direction;
+    if (target < 0 || target >= order.length) {
+      location.href = "journey-index.html";
+      return;
+    }
+    const file = fixed[order[target]].file;
+    location.href = direction < 0 ? `${file}?present=1&last=1` : `${file}?present=1`;
   }
 
   nav.innerHTML = data.moments.map((moment, momentIndex) => `<button data-index="${momentIndex}" type="button"><span>${moment.date}</span>${moment.place}</button>`).join("");
@@ -131,14 +155,8 @@
       $("#presentation").hidden = true;
       document.body.classList.remove("presenting");
     }
-    if (event.target.closest("#previous")) {
-      selectMoment((index - 1 + data.moments.length) % data.moments.length);
-      present();
-    }
-    if (event.target.closest("#next")) {
-      selectMoment((index + 1) % data.moments.length);
-      present();
-    }
+    if (event.target.closest("#previous")) across(-1);
+    if (event.target.closest("#next")) across(1);
     const thumbnail = event.target.closest(".thumb");
     if (thumbnail) {
       const photo = data.moments[index].photos[Number(thumbnail.dataset.photo)];
@@ -154,14 +172,8 @@
       selectMoment(Number(keyedPoint.dataset.index));
     }
     if (!document.body.classList.contains("presenting")) return;
-    if (event.key === "ArrowLeft") {
-      selectMoment((index - 1 + data.moments.length) % data.moments.length);
-      present();
-    }
-    if (event.key === "ArrowRight") {
-      selectMoment((index + 1) % data.moments.length);
-      present();
-    }
+    if (event.key === "ArrowLeft") across(-1);
+    if (event.key === "ArrowRight") across(1);
     if (event.key === "Escape") {
       $("#presentation").hidden = true;
       document.body.classList.remove("presenting");
@@ -170,9 +182,12 @@
 
   const initial = data.moments.findIndex((moment) => `#${moment.id}` === location.hash);
   if (initial >= 0) index = initial;
+  const params = new URLSearchParams(location.search);
+  if (initial < 0 && params.get("last") === "1") index = data.moments.length - 1;
   window.addEventListener("hashchange", () => {
     const matched = data.moments.findIndex((moment) => `#${moment.id}` === location.hash);
     if (matched >= 0) selectMoment(matched, false);
   });
   render();
+  if (params.get("present") === "1") present();
 })();
