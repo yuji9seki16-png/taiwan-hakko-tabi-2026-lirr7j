@@ -150,14 +150,24 @@ window.CHAPTER = {
           "caption": "臭豆腐の行列（8/10 18:16 玉里）"
         },
         {
-          "src": "images/reference_stinky_tofu_hualien_cc-by-sa-4.0.jpg",
-          "alt": "皿に盛られた臭豆腐",
-          "caption": "参考写真：花蓮の臭豆腐（旅で撮った写真ではない）／Wikimedia Commons・陳虹樺・CC BY-SA 4.0"
+          "src": "images/IMG_4771.JPG",
+          "alt": "キャベツの漬物をのせた臭豆腐",
+          "caption": "一見、揚げ出し豆腐。（8/10 玉里橋頭臭豆腐）"
+        },
+        {
+          "src": "images/IMG_4779.JPG",
+          "alt": "玉里橋頭臭豆腐の店構えと並ぶ人たち",
+          "caption": "玉里橋頭臭豆腐の店構え（8/10）"
+        },
+        {
+          "src": "images/IMG_4768.JPG",
+          "alt": "番号札の案内が貼られた店の入口",
+          "caption": "番号札をとって、呼ばれたら注文（8/10）"
         },
         {
           "src": "images/IMG_4775.JPG",
-          "alt": "店先に並ぶタレの桶",
-          "caption": "玉里橋頭臭豆腐の店先（8/10）"
+          "alt": "店先の分別ゴミ箱と洗い場",
+          "caption": "店先の分別ゴミ箱と洗い場（8/10）"
         },
         {
           "src": "images/IMG_4770.JPG",
