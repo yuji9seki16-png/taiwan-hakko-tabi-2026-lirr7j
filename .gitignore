@@ -1,1 +1,5 @@
 .DS_Store
+i18n/*.log
+i18n/Codex*.md
+i18n/codex_*
+i18n/.codex_*
