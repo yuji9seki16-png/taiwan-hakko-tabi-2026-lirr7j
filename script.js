@@ -187,7 +187,7 @@
   function noteContent() {
     const section = document.querySelector('#civet-coffee-note') || document.querySelector('.note-section');
     if (!section || !section.querySelector('h2')) return null;
-    const parts = [...section.querySelectorAll('details')].filter((item) => !/出典/.test(item.querySelector('summary').textContent))
+    const parts = [...section.querySelectorAll('details')].filter((item) => !/出典|出處|Source/i.test(item.querySelector('summary').textContent))
       .map((item) => `<h3>${item.querySelector('summary').innerHTML}</h3><p>${item.querySelector('p').innerHTML}</p>`).join('');
     const source = section.querySelector('.note-source');
     return { name: section.querySelector('h2').innerHTML, body: parts + (source ? `<p class="note-source">${source.innerHTML}</p>` : '') };

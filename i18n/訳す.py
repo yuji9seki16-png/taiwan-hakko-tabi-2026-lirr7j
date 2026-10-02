@@ -2,7 +2,7 @@
 """Web展示の訳表づくり（訳す担当＝クロ）。
 
   python3 i18n/訳す.py --dry-run    訳がまだない文の数だけ見る
-  python3 i18n/訳す.py              足りない訳をつくって 訳表.tsv に足す
+  python3 i18n/訳す.py              足りない訳をつくって 訳表.tsv に足す（--lang en で英語。既定は zh-Hant）
 
 訳表.tsv の列：キー／場所／日本語／zh-Hant（列は言語を足すたびに右へ増やす）
 - キー＝日本語原文の sha1 先頭12桁。日本語を直すとキーが変わり、その文だけ訳し直しになる
@@ -14,11 +14,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 TABLE = ROOT / 'i18n' / '訳表.tsv'
-BOOKLET_ZH = ROOT.parent / '最終編集_Claude' / '繁体字' / '組版' / 'translation.tsv'
-GLOSSARY = Path.home() / 'kamoshika' / 'content' / 'i18n' / 'glossary_zh-Hant.tsv'
 JA = re.compile(r'[぀-ヿ一-鿿]')
 SKIP = {'src', 'source', 'visibility', 'boundarySource', 'id', 'number'}
-LANG = 'zh-Hant'
 BATCH_CHARS = 2500
 WORKERS = 2
 
@@ -60,6 +57,7 @@ def extract():
         s = Path(f).read_text(encoding='utf-8')
         for lit in re.findall(r"'((?:[^'\\\n]|\\.)*)'|\"((?:[^\"\\\n]|\\.)*)\"|`([^`]*)`", s):
             for t in pieces(''.join(lit)):
+                add(t, '断片:' + name)  # 引用符を含んだまま画面に出る文もある（出典の論文名など）
                 for part in re.split(r'[\'"]', t): add(part, '断片:' + name)
     return rows
 
@@ -78,7 +76,7 @@ def save_table(head, rows, table):
         lines.append('\t'.join([k, where, fold(ja)] + [r.get(h, '') for h in head[3:]]))
     TABLE.write_text('\n'.join(lines) + '\n', encoding='utf-8')
 
-SYSTEM = """你是發酵食堂カモシカ（Kamoshika Fermentation）的譯者，把網頁展覽「台灣一周・發酵之旅 2026」從日文翻成台灣繁體中文。
+SYSTEM_ZH = """你是發酵食堂カモシカ（Kamoshika Fermentation）的譯者，把網頁展覽「台灣一周・發酵之旅 2026」從日文翻成台灣繁體中文。
 作者是關雄介（日本京都嵐山的發酵食堂共同經營者），文字是他旅行台灣時的第一人稱紀錄，語氣安靜、具體、有身體感，不誇張、不說教。
 - 用台灣讀者自然的繁體中文與台灣用語（不要大陸用語）。
 - 保留作者的節奏：短句就譯成短句，不要加解釋、不要美化。
@@ -92,17 +90,43 @@ SYSTEM = """你是發酵食堂カモシカ（Kamoshika Fermentation）的譯者�
 - 日期、數字照原文。帶「（ ）」的日文讀音說明，若對台灣讀者無意義可省略。
 - 只輸出 [n] 譯文，一行一筆，不要其他文字。"""
 
+SYSTEM_EN = """You translate the web exhibition "Around Taiwan: A Fermentation Journey 2026" for Kamoshika Fermentation, from Japanese into English.
+The author is Yusuke Seki, co-owner of a fermentation restaurant in Arashiyama, Kyoto. The text is his first-person record of travelling around Taiwan: quiet, concrete, bodily, never hyped, never preachy.
+- Write natural, plain English. Keep the author's rhythm: short lines stay short. Do not add explanations or embellish.
+- Proper nouns, people and place names must match the existing booklet translation below (e.g. Liu Huan-yue, Megan, Eagle). Taiwanese places use the usual Taiwanese romanization in the booklet.
+- The glossary spelling (en column) wins.
+- "⏎" is a line break. Keep exactly as many, in matching positions.
+- Keep HTML tags such as <br> in the matching positions.
+- Titles of books/papers, scientific names and URLs stay as they are.
+- "第2章" → "Chapter 2", "終章" → "Epilogue".
+- Keep dates and numbers. Japanese reading aids in （ ） can be dropped when meaningless to English readers.
+- The brand name is "Kamoshika Fermentation" (no period). "発酵食堂カモシカ" → "Kamoshika Fermentation" unless the restaurant itself is meant ("our restaurant in Arashiyama").
+- Output only "[n] translation", one per line, nothing else."""
+
+BOOKS = ROOT.parent / '最終編集_Claude'
+LANGS = {
+    'zh-Hant': dict(system=SYSTEM_ZH, booklet=BOOKS / '繁体字' / '組版' / 'translation.tsv',
+                    glossary=Path.home() / 'kamoshika' / 'content' / 'i18n' / 'glossary_zh-Hant.tsv',
+                    head='## 用語表', book='## 既有小冊子譯文（同一趟旅程，台灣讀者評價很高。作為文體與專有名詞的範本）',
+                    items='## 要翻譯的文字（括號內是位置，僅供參考，不要翻譯）', out='輸出 {n} 行：[1] … [{n}]'),
+    'en': dict(system=SYSTEM_EN, booklet=BOOKS / '英語' / '組版' / 'translation.tsv',
+               glossary=Path.home() / 'kamoshika' / 'content' / 'captions_global' / 'glossary_global.tsv',
+               head='## Glossary', book='## Existing booklet translation (same journey; model for tone and proper nouns)',
+               items='## Text to translate (location in parentheses is context only, do not translate it)', out='Output {n} lines: [1] … [{n}]'),
+}
+LANG = 'zh-Hant'
+
+
 def build_prompt(batch):
-    gloss = GLOSSARY.read_text(encoding='utf-8')
-    booklet = BOOKLET_ZH.read_text(encoding='utf-8')
+    c = LANGS[LANG]
+    gloss = c['glossary'].read_text(encoding='utf-8')
+    booklet = c['booklet'].read_text(encoding='utf-8')
     items = '\n'.join(f'[{i+1}] （{where}）{fold(ja)}' for i, (_, where, ja) in enumerate(batch))
-    return (f'## 用語表\n{gloss}\n\n## 既有小冊子譯文（同一趟旅程，台灣讀者評價很高。作為文體與專有名詞的範本）\n{booklet}\n\n'
-            f'## 要翻譯的文字（括號內是位置，僅供參考，不要翻譯）\n{items}\n\n'
-            f'輸出 {len(batch)} 行：[1] … [{len(batch)}]')
+    return (f"{c['head']}\n{gloss}\n\n{c['book']}\n{booklet}\n\n{c['items']}\n{items}\n\n" + c['out'].format(n=len(batch)))
 
 def call(prompt):
     r = subprocess.run(['claude', '-p', '--model', 'opus', '--tools', '', '--no-session-persistence',
-                        '--strict-mcp-config', '--setting-sources', 'local', '--system-prompt', SYSTEM],
+                        '--strict-mcp-config', '--setting-sources', 'local', '--system-prompt', LANGS[LANG]['system']],
                        input=prompt, capture_output=True, text=True, timeout=1800)
     if r.returncode: raise RuntimeError(r.stderr[-500:] or r.stdout[-500:])
     return r.stdout
@@ -119,8 +143,11 @@ def translate(batch):
     raise RuntimeError('2回とも形がそろわなかった')
 
 def main():
-    ap = argparse.ArgumentParser(); ap.add_argument('--dry-run', action='store_true'); a = ap.parse_args()
+    global LANG
+    ap = argparse.ArgumentParser(); ap.add_argument('--dry-run', action='store_true'); ap.add_argument('--lang', default='zh-Hant', choices=LANGS)
+    a = ap.parse_args(); LANG = a.lang
     rows = extract(); head, table = load_table()
+    if LANG not in head: head.append(LANG)
     todo = [r for r in rows if not table.get(r[0], {}).get(LANG)]
     print(f'文 {len(rows)}件／訳がまだない {len(todo)}件（{sum(len(r[2]) for r in todo)}字）', flush=True)
     if a.dry_run or not todo: save_table(head, rows, table); return

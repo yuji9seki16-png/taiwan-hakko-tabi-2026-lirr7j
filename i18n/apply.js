@@ -73,7 +73,7 @@
   if (titleEl) new MutationObserver(fixTitle).observe(titleEl, { childList: true, characterData: true, subtree: true });
   document.addEventListener('DOMContentLoaded', fixTitle);
 
-  // 字体：日本語の書体名の前に、台湾で自然に見える書体を足す
+  // 字体（中国語のときだけ）：日本語の書体名の前に、台湾で自然に見える書体を足す
   const TC = { mincho: '"Songti TC","Noto Serif TC","PMingLiU",', gothic: '"PingFang TC","Noto Sans TC","Microsoft JhengHei",' };
   const fix = (rules) => { for (const r of rules) {
     if (r.cssRules) fix(r.cssRules);
@@ -83,5 +83,5 @@
     else if (/Gothic/.test(f)) r.style.fontFamily = TC.gothic + f;
   } };
   const fixAll = () => { for (const s of document.styleSheets) { try { fix(s.cssRules); } catch (e) {} } };
-  fixAll(); window.addEventListener('load', fixAll);
+  if (I.lang.startsWith('zh')) { fixAll(); window.addEventListener('load', fixAll); }
 })();

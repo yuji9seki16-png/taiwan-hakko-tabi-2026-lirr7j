@@ -3,3 +3,4 @@ i18n/*.log
 i18n/Codex*.md
 i18n/codex_*
 i18n/.codex_*
+i18n/点検_*.tsv
